@@ -1,0 +1,7 @@
+include AUTHORS.rst
+include LICENSE.txt
+include CHANGELOG.rst
+include README.md
+include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/css/django-grappelli-custom-autocomplete.css
+include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/js/django-grappelli-custom-autocomplete.js
+recursive-include django_grappelli_custom_autocomplete/ *.py *.css *.js
