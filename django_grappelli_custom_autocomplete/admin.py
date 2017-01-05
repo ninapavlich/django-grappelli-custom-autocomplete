@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 class AdminListOrderable(admin.ModelAdmin):
-	change_list_template = 'admin/django_inline_wrestler/change_list.html'
+	change_list_template = 'admin/django_grappelli_custom_autocomplete/change_list.html'
 
 	def changelist_view(self, request, extra_context=None):
 		extra_context = extra_context or {}
@@ -9,9 +9,9 @@ class AdminListOrderable(admin.ModelAdmin):
 		return super(AdminListOrderable, self).changelist_view(request, extra_context=extra_context)
 	class Media:        
 		css = {
-			"all": ('django_inline_wrestler/css/django-grappelli-custom-autocomplete.css',)
+			"all": ('django_grappelli_custom_autocomplete/css/django-grappelli-custom-autocomplete.css',)
 		}
 		js = [
-			'django_inline_wrestler/js/django-grappelli-custom-autocomplete.js' 
+			'django_grappelli_custom_autocomplete/js/django-grappelli-custom-autocomplete.js' 
 		]
 
