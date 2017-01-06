@@ -1,0 +1,53 @@
+{% extends "admin/change_form.html" %}
+
+<!-- LOADING -->
+{% load admin_static i18n admin_modify admin_urls custom_autocomplete_tags %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+            $(document).ready(function() {
+                
+                {% get_custom_autocomplete_lookup_fields_fk adminform.model_admin as fk_fields %};
+                {% get_custom_autocomplete_lookup_fields_m2m adminform.model_admin as m2m_fields %};
+                {% get_custom_autocomplete_lookup_fields_generic adminform.model_admin as generic_fields %};
+
+                var custom_autocomplete_fields_fk = {{fk_fields|safe}}
+                var custom_autocomplete_fields_m2m = {{m2m_fields|safe}}
+                var custom_autocomplete_fields_generic = {{generic_fields|safe}}
+                
+                $.each(custom_autocomplete_fields_fk, function() {
+                    $("#id_" + this).grp_custom_autocomplete_fk({
+                        lookup_url:"{% url 'custom_related_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'custom_autocomplete_lookup' %}"
+                    });
+                });
+                $.each(custom_autocomplete_fields_m2m, function() {
+                    $("#id_" + this).grp_custom_autocomplete_m2m({
+                        lookup_url:"{% url 'custom_m2m_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'custom_autocomplete_lookup' %}"
+                    });
+                });
+                $.each(custom_autocomplete_fields_generic, function() {
+                    var content_type = "#id_" + this[0],
+                        object_id = "#id_" + this[1];
+                    $(object_id).grp_custom_autocomplete_generic({
+                        content_type:content_type,
+                        object_id:object_id,
+                        lookup_url:"{% url 'custom_related_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'custom_autocomplete_lookup' %}"
+                    });
+                });
+                
+            });
+        })(grp.jQuery);
+    </script>
+    {{ media }}
+{% endblock %}

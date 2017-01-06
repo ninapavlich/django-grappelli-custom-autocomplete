@@ -12,14 +12,35 @@ Requires Django and django-grappelli
 Usage
 =====
 1. pip install django-grappelli-custom-autocomplete
-2. Add 'django-grappelli-custom-autocomplete' to your INSTALLED_APPS list in your project's settings.py
+2. Add 'django_grappelli_custom_autocomplete' to your INSTALLED_APPS list in your project's settings.py
+3. Add to custom urls to urls.py: url(r'^grappelli_custom_autocomplete/', include('django_grappelli_custom_autocomplete.urls')),
 
 ```python
-from django-grappelli-custom-autocomplete.admin import TabularInlineOrderable, AdminListOrderable
+#admin.py
+from django_grappelli_custom_autocomplete.admin import CustomAutocompleteMixin
 
-from .models import *
-
-class ObjectAdmin(CustomAutocompleteAdminMixin, admin.ModelAdmin):
+class PageAdmin(CustomAutocompleteMixin, admin.ModelAdmin):
 	
-	#TODO
+	fields = ['title', 'thumbnail']
+	raw_id_fields = ['thumbnail']
+	custom_autocomplete_lookup_fields = {
+        'fk':['thumbnail'],
+        'm2m': []
+    }
+
+
+#models.py
+class Image( BaseImage ):
+
+    """
+    ...Your fields here...
+    """
+    
+    def custom_related_dropdown_label(self):
+        return "<img src='%s' width='150' /><br />%s" % (self.thumbnail.url, self.title)
+    custom_related_dropdown_label.allow_tags = True
+
+    def custom_related_selected_display(self):
+        return "<img src='%s' width='150' />" % (self.thumbnail.url)
+    custom_related_selected_display.allow_tags = True
 ```
