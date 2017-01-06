@@ -42,15 +42,21 @@ class do_get_generic_objects(template.Node):
 
 @register.assignment_tag()
 def get_custom_autocomplete_lookup_fields_fk(model_admin):
-    return model_admin.custom_autocomplete_lookup_fields.get("fk", [])
+    if getattr(model_admin, "custom_autocomplete_lookup_fields", None):
+        return model_admin.custom_autocomplete_lookup_fields.get("fk", [])
+    return []
 
 
 @register.assignment_tag()
 def get_custom_autocomplete_lookup_fields_m2m(model_admin):
-    return model_admin.custom_autocomplete_lookup_fields.get("m2m", [])
+    if getattr(model_admin, "custom_autocomplete_lookup_fields", None):
+        return model_admin.custom_autocomplete_lookup_fields.get("m2m", [])
+    return []
 
 
 @register.assignment_tag()
 def get_custom_autocomplete_lookup_fields_generic(model_admin):
-    return model_admin.custom_autocomplete_lookup_fields.get("generic", [])
+    if getattr(model_admin, "custom_autocomplete_lookup_fields", None):
+        return model_admin.custom_autocomplete_lookup_fields.get("generic", [])
+    return []
 

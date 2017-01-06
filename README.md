@@ -3,8 +3,13 @@ django-grappelli-custom-autocomplete
 
 This library gives you the ability to customize the display of the grappelli FK / M2M autocomplete lookup.
 
+Customize the dropdown contents and preview contents in an FK Autocomplete:
 ![Screenshot of custom FK lookup](/../master/docs/screenshots/fk_selection.png?raw=true "Screenshot of custom FK lookup")
+
+Customize the dropdown contents and preview contents in an M2M Autocomplete:
 ![Screenshot of custom M2M lookup](/../master/docs/screenshots/m2m_selection.png?raw=true "Screenshot of custom M2M lookup")
+
+Improved UX for deletion on M2M:
 ![Better M2M delete display](/../master/docs/screenshots/delete_ux.png?raw=true "Screenshot of M2M delete")
 
 Requirements
@@ -20,29 +25,15 @@ Installation
 Usage
 =====
 ```python
-#admin.py
-from django_grappelli_custom_autocomplete.admin import CustomAutocompleteMixin
-
-class PageAdmin(CustomAutocompleteMixin, admin.ModelAdmin):
-	
-	fields = ['title', 'thumbnail', 'slides']
-	raw_id_fields = ['thumbnail', 'slides']
-	custom_autocomplete_lookup_fields = {
-        'fk':['thumbnail'],
-        'm2m': ['slides']
-    }
-
 
 #models.py
 class Image( BaseImage ):
 
-    """
-    ...Your fields here...
-    """
+    #...Your fields here...
     
 
     """
-    Define the following three functions on the model to return custom 
+    1. Define the following three functions on the model to return custom 
     autocomplete markup:
     """
     def custom_related_dropdown_label(self):
@@ -57,4 +48,31 @@ class Image( BaseImage ):
     def custom_related_m2m_selected_display(self):
         #This is the HTML that gets used in the M2M list
         return "<img src='%s' height='35' /> %s " % (self.thumbnail.url, self.title)
+
+#admin.py
+from django_grappelli_custom_autocomplete.admin import CustomAutocompleteMixin, CustomAutocompleteTabularMixin
+
+class PageAdmin(CustomAutocompleteMixin, admin.ModelAdmin):
+    """
+    2. Add the admin mixin "CustomAutocompleteMixin" to your admin class. 
+    3. Define "custom_autocomplete_lookup_fields" as you would with the
+       "autocomplete_lookup_fields."
+    """
+    
+    fields = ['title', 'thumbnail', 'slides']
+    raw_id_fields = ['thumbnail', 'slides']
+    custom_autocomplete_lookup_fields = {
+        'fk':['thumbnail'],
+        'm2m': ['slides']
+    }
+
+class SlideInlineAdmin(CustomAutocompleteTabularMixin, admin.TabularInline):
+    
+    fields = ['title', 'thumbnail', 'slides']
+    raw_id_fields = ['thumbnail', 'slides']
+    custom_autocomplete_lookup_fields = {
+        'fk':['thumbnail'],
+        'm2m': ['slides']
+    }    
+
 ```

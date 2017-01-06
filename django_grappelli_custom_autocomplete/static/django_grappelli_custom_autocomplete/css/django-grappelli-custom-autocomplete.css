@@ -12,17 +12,15 @@
 	color:#ccc;
 	border-radius: 2px;
 	z-index: 10;
+	margin-left:5px;
 }
 .grp-autocomplete-wrapper-m2m a.grp-m2m-remove:hover:after {
 	border-color: #bf3030;
 	background-color: #bf3030;
 	color:#fff;
 }
-.grp-autocomplete-wrapper-fk{
-	float:left;
-}
+
 .grp-custom-extra-display{
-	float:left;
-	margin-left:10px;
+	margin-top:10px;
 }
 

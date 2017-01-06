@@ -22,6 +22,8 @@
                 var custom_autocomplete_fields_fk = {{fk_fields|safe}}
                 var custom_autocomplete_fields_m2m = {{m2m_fields|safe}}
                 var custom_autocomplete_fields_generic = {{generic_fields|safe}}
+
+                console.log("custom_autocomplete_fields_fk? "+custom_autocomplete_fields_fk)
                 
                 $.each(custom_autocomplete_fields_fk, function() {
                     $("#id_" + this).grp_custom_autocomplete_fk({

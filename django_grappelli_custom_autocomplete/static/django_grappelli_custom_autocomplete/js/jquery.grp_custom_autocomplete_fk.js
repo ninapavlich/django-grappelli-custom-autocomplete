@@ -3,13 +3,14 @@
  * foreign-key lookup with autocomplete
  * NOTE: THIS HAS BEEN MOFIDIFIED FOR django-grappelli-custom-atutocomplete -nina@ninalp.com
  */
+ 
 
 (function($){
 
     var methods = {
         init: function(options) {
             options = $.extend({}, $.fn.grp_custom_autocomplete_fk.defaults, options);
-
+            
             return this.each(function() {
 
                 
@@ -49,6 +50,7 @@
     };
 
     $.fn.grp_custom_autocomplete_fk = function(method) {
+        
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || ! method) {
@@ -70,7 +72,7 @@
         var removelink = $('<a class="grp-related-remove"></a>');
         removelink.attr('id', 'remove_'+id);
         removelink.attr('href', 'javascript://');
-        removelink.attr('onClick', 'return removeRelatedObject(this);');
+        removelink.attr('onClick', 'return customRemoveRelatedObject(this);');
         removelink.hover(function() {
             $(this).parent().toggleClass("grp-autocomplete-preremove");
         });
@@ -137,7 +139,7 @@
     };
 
     var lookup_id = function(elem, options) {
-        console.log("lookup_id()")
+        
         $.getJSON(options.lookup_url, {
             object_id: elem.val(),
             app_label: grappelli.get_app_label(elem),

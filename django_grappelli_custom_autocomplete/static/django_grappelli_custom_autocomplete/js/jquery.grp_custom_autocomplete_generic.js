@@ -71,7 +71,7 @@
         var removelink = $('<a class="grp-related-remove"></a>');
         removelink.attr('id', 'remove_'+id);
         removelink.attr('href', 'javascript://');
-        removelink.attr('onClick', 'return removeRelatedObject(this);');
+        removelink.attr('onClick', 'return customRemoveRelatedObject(this);');
         removelink.hover(function() {
             $(this).parent().toggleClass("grp-autocomplete-preremove");
         });
