@@ -3,5 +3,8 @@ include LICENSE.txt
 include CHANGELOG.rst
 include README.md
 include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/css/django-grappelli-custom-autocomplete.css
-include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/js/django-grappelli-custom-autocomplete.js
+include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/js/jquery.grp_custom_autocomplete_fk.js
+include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/js/jquery.grp_custom_autocomplete_m2m.js
+include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/js/jquery.grp_custom_autocomplete_generic.js
+include django_grappelli_custom_autocomplete/static/django_grappelli_custom_autocomplete/images/icons-s846f870921.png
 recursive-include django_grappelli_custom_autocomplete/ *.py *.css *.js

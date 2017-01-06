@@ -1,6 +1,7 @@
 /**
  * GRAPPELLI AUTOCOMPLETE GENERIC
  * generic lookup with autocomplete
+ * NOTE: THIS HAS BEEN MOFIDIFIED FOR django-grappelli-custom-atutocomplete -nina@ninalp.com
  */
 
 (function($){
@@ -44,6 +45,8 @@
                 $("label[for='"+$this.attr('id')+"']").each(function() {
                     $(this).attr("for", $this.attr("id")+"-autocomplete");
                 });
+                //Extra content:
+                $this.parent().after('<div class="grp-custom-extra-display"></div>');
             });
         }
     };
@@ -126,7 +129,7 @@
                         },
                         success: function(data){
                             response($.map(data, function(item) {
-                                return {label: item.label, value: item.value};
+                                return {label: item.label, value: item.value, dropdown_label: item.dropdown_label || item.label, selected_fk_display: item.selected_fk_display || item.label};
                             }));
                         },
                         complete: function (XMLHttpRequest, textStatus) {
@@ -142,6 +145,7 @@
                     elem.val(ui.item.value);
                     elem.trigger('change');
                     elem.val() ? $(options.remove_link).show() : $(options.remove_link).hide();
+                    $(elem).parent().next('.grp-custom-extra-display').html(ui.item.selected_fk_display);
                     return false;
                 }
             })

@@ -1,6 +1,7 @@
 /**
  * GRAPPELLI AUTOCOMPLETE FK
  * foreign-key lookup with autocomplete
+ * NOTE: THIS HAS BEEN MOFIDIFIED FOR django-grappelli-custom-atutocomplete -nina@ninalp.com
  */
 
 (function($){
@@ -41,6 +42,8 @@
                 $("label[for='"+$this.attr('id')+"']").each(function() {
                     $(this).attr("for", $this.attr("id")+"-autocomplete");
                 });
+                //Extra content:
+                $this.parent().after('<div class="grp-custom-extra-display"></div>');
             });
         }
     };
@@ -60,6 +63,8 @@
         var loader = $('<div class="grp-loader">loader</div>');
         return loader;
     };
+
+
 
     var remove_link = function(id) {
         var removelink = $('<a class="grp-related-remove"></a>');
@@ -95,7 +100,7 @@
                         },
                         success: function(data){
                             response($.map(data, function(item) {
-                                return {label: item.label, value: item.value, dropdown_label: item.dropdown_label, selected_display: item.selected_display};
+                                return {label: item.label, value: item.value, dropdown_label: item.dropdown_label || item.label, selected_fk_display: item.selected_fk_display || item.label};
                             }));
                         },
                         complete: function (XMLHttpRequest, textStatus) {
@@ -111,6 +116,7 @@
                     elem.val(ui.item.value);
                     elem.trigger('change');
                     elem.val() ? $(options.remove_link).show() : $(options.remove_link).hide();
+                    $(elem).parent().next('.grp-custom-extra-display').html(ui.item.selected_fk_display);
                     return false;
                 }
             })
@@ -131,6 +137,7 @@
     };
 
     var lookup_id = function(elem, options) {
+        console.log("lookup_id()")
         $.getJSON(options.lookup_url, {
             object_id: elem.val(),
             app_label: grappelli.get_app_label(elem),
@@ -139,6 +146,7 @@
             $.each(data, function(index) {
                 options.input_field.val(data[index].label);
                 elem.val() ? $(options.remove_link).show() : $(options.remove_link).hide();
+                $(elem).parent().next('.grp-custom-extra-display').html(data[index].selected_fk_display);
             });
         });
     };

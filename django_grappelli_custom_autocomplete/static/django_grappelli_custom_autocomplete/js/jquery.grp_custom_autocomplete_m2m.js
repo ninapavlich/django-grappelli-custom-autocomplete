@@ -1,6 +1,7 @@
 /**
  * GRAPPELLI AUTOCOMPLETE M2M
  * many-to-many lookup with autocomplete
+ * NOTE: THIS HAS BEEN MOFIDIFIED FOR django-grappelli-custom-atutocomplete -nina@ninalp.com
  */
 
 
@@ -47,6 +48,8 @@
                 $("label[for='"+$this.attr('id')+"']").each(function() {
                     $(this).attr("for", $this.attr("id")+"-autocomplete");
                 });
+                //Extra content:
+                // $this.parent().after('<div class="grp-custom-extra-display"></div>');
                 // click on div > focus input
                 options.wrapper_autocomplete.bind("click", function(e) {
                     // prevent focus when clicking on remove/select
@@ -151,7 +154,7 @@
                         },
                         success: function(data){
                             response($.map(data, function(item) {
-                                return {label: item.label, value: item.value};
+                                return {label: item.label, value: item.value, dropdown_label: item.dropdown_label || item.label, selected_m2m_display: item.selected_m2m_display || item.label};
                             }));
                         },
                         complete: function (XMLHttpRequest, textStatus) {
@@ -166,6 +169,7 @@
                     repr_add(elem, ui.item.label, options);
                     value_add(elem, ui.item.value, options);
                     elem.val() ? $(options.remove_link).show() : $(options.remove_link).hide();
+                    // $(elem).parent().next('.grp-custom-extra-display').html(ui.item.selected_m2m_display);
                     $(this).val("").focus();
                     return false;
                 }
@@ -194,7 +198,7 @@
             options.wrapper_repr.find("li.grp-repr").remove();
             options.wrapper_search.find("input").val("");
             $.each(data, function(index) {
-                if (data[index].value) repr_add(elem, data[index].label, options);
+                if (data[index].value) repr_add(elem, data[index].selected_m2m_display, options);
             });
             elem.val() ? $(options.remove_link).show() : $(options.remove_link).hide();
         });

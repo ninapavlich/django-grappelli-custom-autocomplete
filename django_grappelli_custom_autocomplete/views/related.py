@@ -33,10 +33,15 @@ def get_dropdown_label(f):
         return f.custom_related_dropdown_label()
     return smart_text(f)  
 
-def get_selected_display(f):
-    if getattr(f, "custom_related_selected_display", None):
-        return f.custom_related_selected_display()
-    return ''
+def get_selected_fk_display(f):
+    if getattr(f, "custom_related_fk_selected_display", None):
+        return f.custom_related_fk_selected_display()
+    return get_label(f)
+
+def get_selected_m2m_display(f):
+    if getattr(f, "custom_related_m2m_selected_display", None):
+        return f.custom_related_m2m_selected_display()
+    return get_label(f) 
 
 
 def import_from(module, name):
@@ -104,10 +109,14 @@ class CustomRelatedLookup(View):
         if obj_id:
             try:
                 obj = self.get_queryset().get(pk=obj_id)
-                data.append({"value": obj_id, "label": get_label(obj), "dropdown_label": get_dropdown_label(obj), "selected_display": get_selected_display(obj)})
+                data.append({"value": obj_id, "label": get_label(obj), "dropdown_label": get_dropdown_label(obj), "selected_fk_display": get_selected_fk_display(obj), "selected_m2m_display": get_selected_m2m_display(obj)})
             except (self.model.DoesNotExist, ValueError):
-                data.append({"value": obj_id, "label": _("?"), "dropdown_label": _("?"), "selected_display": _("?")})
+                data.append({"value": obj_id, "label": _("?"), "dropdown_label": _("?"), "selected_fk_display": _("?"), "selected_m2m_display": _("?")})
         return data
+
+      
+
+
 
     @never_cache
     def get(self, request, *args, **kwargs):
@@ -134,9 +143,9 @@ class CustomM2MLookup(CustomRelatedLookup):
         for obj_id in (i for i in obj_ids if i):
             try:
                 obj = self.get_queryset().get(pk=obj_id)
-                data.append({"value": obj_id, "label": get_label(obj), "dropdown_label": get_dropdown_label(obj), "selected_display": get_selected_display(obj)})
+                data.append({"value": obj_id, "label": get_label(obj), "dropdown_label": get_dropdown_label(obj), "selected_fk_display": get_selected_fk_display(obj), "selected_m2m_display": get_selected_m2m_display(obj)})
             except (self.model.DoesNotExist, ValueError):
-                data.append({"value": obj_id, "label": _("?"), "dropdown_label": _("?"), "selected_display": _("?")})
+                data.append({"value": obj_id, "label": _("?"), "dropdown_label": _("?"), "selected_fk_display": _("?"), "selected_m2m_display": _("?")})
         return data
 
 
@@ -220,7 +229,7 @@ class CustomAutocompleteLookup(CustomRelatedLookup):
         return qs.distinct()
 
     def get_data(self):
-        return [{"value": f.pk, "label": get_label(f), "dropdown_label": get_dropdown_label(f), "selected_display": get_selected_display(f)} for f in self.get_queryset()[:AUTOCOMPLETE_LIMIT]]
+        return [{"value": f.pk, "label": get_label(f), "dropdown_label": get_dropdown_label(f), "selected_fk_display": get_selected_fk_display(f), "selected_m2m_display": get_selected_m2m_display(f)} for f in self.get_queryset()[:AUTOCOMPLETE_LIMIT]]
 
     @never_cache
     def get(self, request, *args, **kwargs):
