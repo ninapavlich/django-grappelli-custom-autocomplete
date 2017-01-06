@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 #this is a test
 setup(name = 'django-grappelli-custom-autocomplete',
       description = 'Customize the template for autocomplete lookups.',
-      version = '1.0',
+      version = '1.2',
       url = 'https://github.com/ninapavlich/django-grappelli-custom-autocomplete',
       author = 'Nina Pavlich',
       author_email='nina@ninalp.com',
