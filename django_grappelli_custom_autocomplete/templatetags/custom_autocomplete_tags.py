@@ -29,6 +29,7 @@ register = template.Library()
 
 # GENERIC OBJECTS
 class do_get_generic_objects(template.Node):
+
     def __init__(self):
         pass
 
@@ -40,23 +41,23 @@ class do_get_generic_objects(template.Node):
 
 # AUTOCOMPLETES
 
+
 @register.assignment_tag()
 def get_custom_autocomplete_lookup_fields_fk(model_admin):
     if getattr(model_admin, "custom_autocomplete_lookup_fields", None):
-        return model_admin.custom_autocomplete_lookup_fields.get("fk", [])
+        return [str(item) for item in model_admin.custom_autocomplete_lookup_fields.get("fk", [])]
     return []
 
 
 @register.assignment_tag()
 def get_custom_autocomplete_lookup_fields_m2m(model_admin):
     if getattr(model_admin, "custom_autocomplete_lookup_fields", None):
-        return model_admin.custom_autocomplete_lookup_fields.get("m2m", [])
+        return [str(item) for item in model_admin.custom_autocomplete_lookup_fields.get("m2m", [])]
     return []
 
 
 @register.assignment_tag()
 def get_custom_autocomplete_lookup_fields_generic(model_admin):
     if getattr(model_admin, "custom_autocomplete_lookup_fields", None):
-        return model_admin.custom_autocomplete_lookup_fields.get("generic", [])
+        return [str(item) for item in model_admin.custom_autocomplete_lookup_fields.get("generic", [])]
     return []
-
